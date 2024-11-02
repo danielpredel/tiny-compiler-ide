@@ -47,6 +47,8 @@ class AnalizadorSemantico:
                     identificador.exp_type = self.tabla_simbolos[identificador.name]["type"]
                     
                     valor, tipo = self.preorden(nodo.child[1])
+                    nodo.val = valor
+                    nodo.exp_type = tipo
                     if tipo == None:
                         self.tabla_simbolos[identificador.name]["value"] = None
                         identificador.val = None
@@ -56,12 +58,17 @@ class AnalizadorSemantico:
                         error = f'Error en la linea {nodo.lineno}: no se puede asignar un valor "{tipo}" a una variable "{identificador.exp_type}"'
                         self.errores.append(error)
                     elif tipo == 'integer':
-                        self.tabla_simbolos[identificador.name]["value"] = valor
-                        identificador.val = valor
+                        if identificador.exp_type == 'integer':
+                            self.tabla_simbolos[identificador.name]["value"] = int(valor)
+                            identificador.val = int(valor)
+                        else:
+                            self.tabla_simbolos[identificador.name]["value"] = float(valor)
+                            identificador.val = float(valor)
+                            
                     elif tipo == 'double':
                         if identificador.exp_type == 'double':
-                            self.tabla_simbolos[identificador.name]["value"] = valor
-                            identificador.val = valor
+                            self.tabla_simbolos[identificador.name]["value"] = float(valor)
+                            identificador.val = float(valor)
                         else:
                             error = f'Error en la linea {nodo.lineno}: no se puede asignar un valor "{tipo}" a una variable "{identificador.exp_type}"'
                             self.errores.append(error)
@@ -192,6 +199,9 @@ class AnalizadorSemantico:
                             else:
                                 nodo.val = valor_op_0 ** valor_op_1
                             
+                            if tipo_op_0 == 'integer' and tipo_op_1 == 'integer':
+                                nodo.val = int(nodo.val)
+                            
                             if type(nodo.val) == int:
                                 nodo.exp_type = 'integer'
                             elif type(nodo.val) == float:
@@ -223,7 +233,7 @@ class AnalizadorSemantico:
     def tree_to_json(self,root):
         # Agregar root y array
         diccionario = {
-            'main': [root.to_dict()]
+            'main': [root.to_dict_attr()]
         }
         # diccionario = root.to_dict()
         
