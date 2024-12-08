@@ -100,7 +100,7 @@ class AnalizadorSemantico:
                 if exp_tipo != 'boolean':
                     error = f'Error en la linea {nodo.lineno}: sentencia {nodo.name} espera una expresion "boolean", recibió una expresion "{exp_tipo}'
                     self.errores.append(error)
-                
+
             else:
                 for child in nodo.child:
                     if child == None:
@@ -121,9 +121,13 @@ class AnalizadorSemantico:
                     valor = self.tabla_simbolos[nodo.name]['value']
                     nodo.val = valor
                     nodo.exp_type = self.tabla_simbolos[nodo.name]["type"]
+                    
                     if valor is None:
-                        error = f'Error en la linea {nodo.lineno}: la variable "{nodo.name}" no se ha inicializado'
-                        self.errores.append(error)
+                        if parent_node_kind[1] != 'IN':
+                            error = f'Error en la linea {nodo.lineno}: la variable "{nodo.name}" no se ha inicializado'
+                            self.errores.append(error)
+                        else:
+                            self.tabla_simbolos[nodo.name]["value"] = 0;
                 else:
                     error = f'Error en la linea {nodo.lineno}: la variable "{nodo.name}" no se ha declarado'
                     self.errores.append(error)
