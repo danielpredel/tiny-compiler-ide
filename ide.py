@@ -47,7 +47,9 @@ class App(ctk.CTk):
         self.title("Super IDE")
         self.geometry(f"{1100}x{580}")
         
-        self.grid_columnconfigure(0, weight=1)
+        # Intercambir las dos siguientes lineas para regresar al estado anterior del IDE
+        # self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure((0,1), weight=1)
         self.grid_rowconfigure(1, weight=1)
         
         # Menu
