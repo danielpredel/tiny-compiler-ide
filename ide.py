@@ -8,6 +8,7 @@ from colores_token import colores
 import lexico
 from sintactico import AnalizadorSintactico
 from semantico import AnalizadorSemantico
+from codigo_intermedio import GeneradorCodigoIntermedio
 import subprocess
 import threading
 
@@ -38,6 +39,8 @@ class App(ctk.CTk):
     arbol_sintactico_anotado = None
     tabla_simbolos = None
     errores_semanticos = None
+    
+    # Generacion de codigo
     
     
     def __init__(self):
@@ -430,6 +433,8 @@ class App(ctk.CTk):
         if n_errores == 0:
             self.analizar_semantica(self)
         
+        self.generar_codigo_intermedio()
+        
     def analizar_lexico(self, *args):
         codigo = self.code_textbox.get("1.0","end-1c")
         self.analisis_lexico, self.errores, self.comentarios = lexico.ejecutar_lexico(codigo)
@@ -541,6 +546,12 @@ class App(ctk.CTk):
             self.errores_tab.insert("end", '\n')
         self.errores_tab.configure(state="disabled")
         # return 0
+    
+    def generar_codigo_intermedio(self, *args):
+        generador_codigo = GeneradorCodigoIntermedio(self.arbol_sintactico_anotado)
+        instrucciones = generador_codigo.generar_codigo_intermedio()
+        for instruccion in instrucciones:
+            print(f'{instruccion};')
         
     def mostrar_analisis_semantico(self, *args):
         self.errores_tab.configure(state="normal")
