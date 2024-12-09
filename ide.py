@@ -140,8 +140,8 @@ class App(ctk.CTk):
         self.analisis_tabview.tab("Lexico").grid_rowconfigure(1, weight=1)
         
         # Botón para abrir otra ventana
-        self.boton_abrir = ctk.CTkButton(self.analisis_tabview.tab("Lexico"), text="Abrir en otra ventana")
-        self.boton_abrir.grid(row=0, column=0, padx=0, pady=5, sticky="ew")
+        # self.boton_abrir = ctk.CTkButton(self.analisis_tabview.tab("Lexico"), text="Abrir en otra ventana")
+        # self.boton_abrir.grid(row=0, column=0, padx=0, pady=5, sticky="ew")
         
         self.lexico_tab = ctk.CTkTextbox(self.analisis_tabview.tab("Lexico"), wrap='none')
         self.lexico_tab.grid(row=1, column=0, padx=0, pady=0, sticky="nsew")
@@ -174,8 +174,8 @@ class App(ctk.CTk):
         self.analisis_tabview.tab("T. Simbolos").grid_rowconfigure(1, weight=1)
         
         # Botón para abrir otra ventana
-        self.boton_abrir_simbolos = ctk.CTkButton(self.analisis_tabview.tab("T. Simbolos"), text="Abrir en otra ventana")
-        self.boton_abrir_simbolos.grid(row=0, column=0, padx=0, pady=5, sticky="ew")
+        # self.boton_abrir_simbolos = ctk.CTkButton(self.analisis_tabview.tab("T. Simbolos"), text="Abrir en otra ventana")
+        # self.boton_abrir_simbolos.grid(row=0, column=0, padx=0, pady=5, sticky="ew")
         
         self.tabla_simb_tab = ctk.CTkTextbox(self.analisis_tabview.tab("T. Simbolos"), wrap='none')
         self.tabla_simb_tab.grid(row=1, column=0, padx=0, pady=0, sticky="nsew")
