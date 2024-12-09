@@ -35,12 +35,14 @@ class App(ctk.CTk):
     
     arbol_sintactico = None
     
+    
     # Analisis semantico
     arbol_sintactico_anotado = None
     tabla_simbolos = None
     errores_semanticos = None
     
     # Generacion de codigo
+    instrucciones = []
     
     
     def __init__(self):
@@ -428,12 +430,14 @@ class App(ctk.CTk):
                 self.cerrar_archivo(self)
 
     def build_file(self, *args):
+        self.operacion_archivo('Guardar')
         self.analizar_lexico(self)
         n_errores = self.analizar_sintactico(self) + len(self.errores)
         if n_errores == 0:
-            self.analizar_semantica(self)
+            n_errores = self.analizar_semantica(self)
         
-        self.generar_codigo_intermedio()
+        if n_errores == 0:
+            self.generar_codigo_intermedio(self)
         
     def analizar_lexico(self, *args):
         codigo = self.code_textbox.get("1.0","end-1c")
@@ -545,14 +549,8 @@ class App(ctk.CTk):
             self.errores_tab.insert("end", error)
             self.errores_tab.insert("end", '\n')
         self.errores_tab.configure(state="disabled")
-        # return 0
-    
-    def generar_codigo_intermedio(self, *args):
-        generador_codigo = GeneradorCodigoIntermedio(self.arbol_sintactico_anotado)
-        instrucciones = generador_codigo.generar_codigo_intermedio()
-        for instruccion in instrucciones:
-            print(f'{instruccion};')
-        
+        return len(errores)
+       
     def mostrar_analisis_semantico(self, *args):
         self.errores_tab.configure(state="normal")
         # Analizar la existencia de los archivos necesarios: 
@@ -578,6 +576,18 @@ class App(ctk.CTk):
             subprocess.run(["java", "-cp",".:json-20240303.jar","Tree", "true"])
         elif os.name == 'nt':
             subprocess.run(["java", "-cp",".;json-20240303.jar","Tree", "true"])
+    
+    def generar_codigo_intermedio(self, *args):
+        generador_codigo = GeneradorCodigoIntermedio(self.arbol_sintactico_anotado)
+        self.instrucciones = generador_codigo.generar_codigo_intermedio()
+        self.mostrar_codigo_intermedio(self)
+    
+    def mostrar_codigo_intermedio(self, *args):
+        self.cod_int_tab.configure(state="normal")
+        self.cod_int_tab.delete("0.0", "end")
+        for instruccion in self.instrucciones:
+            self.cod_int_tab.insert("end", f'{instruccion};\n')
+        self.cod_int_tab.configure(state="disabled")
     
 if __name__ == "__main__":
     app = App()
