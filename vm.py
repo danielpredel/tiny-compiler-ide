@@ -160,6 +160,7 @@ class VirtualMachine:
 
     def set_variable_value(self, variable, valor):
         self.tabla_simbolos[variable]["value"] = valor
+        self.output.append(valor)
         self.contador += 1
         pass
 
