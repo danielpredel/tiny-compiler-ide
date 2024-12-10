@@ -9,6 +9,7 @@ import lexico
 from sintactico import AnalizadorSintactico
 from semantico import AnalizadorSemantico
 from codigo_intermedio import GeneradorCodigoIntermedio
+from vm import VirtualMachine
 import subprocess
 import threading
 
@@ -44,6 +45,9 @@ class App(ctk.CTk):
     # Generacion de codigo
     instrucciones = []
     
+    # Ejecucion
+    variable = {}
+    vm: VirtualMachine    
     
     def __init__(self):
         super().__init__()
@@ -178,13 +182,14 @@ class App(ctk.CTk):
         self.analisis_tabview.tab("Ejecucion").grid_rowconfigure(0, weight=1)
         self.ejecucion_tab = ctk.CTkTextbox(self.analisis_tabview.tab("Ejecucion"), wrap='word')
         self.ejecucion_tab.grid(row=0, column=0, padx=0, pady=0, sticky="nsew")
-        self.ejecucion_tab.insert("end", ">>> Inicio de la Ejecucion <<<\n")
+        # self.ejecucion_tab.insert("end", ">>> Inicio de la Ejecucion <<<\n")
         self.ejecucion_tab.configure(state="disabled")
         
         # Widget para ingresar comandos
         self.input = ctk.CTkEntry(self.analisis_tabview.tab("Ejecucion"), placeholder_text="Ingresa el numero aqui ...")
         self.input.grid(row=1, column=0, padx=0, pady=5, sticky="nsew")
         self.input.bind("<Return>", self.send_command)
+        self.input.configure(state="disabled")
         
         # Tabview Errores
         self.err_run_tabview = ctk.CTkTabview(self.output_frame, width=500)
@@ -438,14 +443,19 @@ class App(ctk.CTk):
     
     def run_file(self, *args):
         self.build_file(self)
+        self.vm = VirtualMachine(self.instrucciones, self.tabla_simbolos)
+        self.ejecutar_vm(self)
         
-        # Ciclo de ejecucion de la VM
-        # Caso simple: sin lectura de varibles
-        #   vm.execute = output -> ide
-        # Caso complejo: con lectura de varibles
-        #   vm.output => ide
-        #   vm.input  <= ide
-        #   vm.output => ide
+        # Posiblemente se puede hacer una funcion llamada por run_file y por el input
+        # ejecucion = self.vm.execute()
+        # if ejecucion['status'] == 'END':
+        #     output = ejecucion['output']
+        #     self.mostrar_ejecucion(output)
+        # elif ejecucion['status'] == 'INPUT':
+        #     output = ejecucion['output']
+        #     self.variable = ejecucion['variable']
+        #     self.mostrar_ejecucion(output)
+        #     self.input.configure(state="normal")
         
     def analizar_lexico(self, *args):
         codigo = self.code_textbox.get("1.0","end-1c")
@@ -597,14 +607,48 @@ class App(ctk.CTk):
             self.cod_int_tab.insert("end", f'{instruccion};\n')
         self.cod_int_tab.configure(state="disabled")
     
+    def ejecutar_vm(self, *args):
+        ejecucion = self.vm.execute()
+        if ejecucion['status'] == 'END':
+            output = ejecucion['output']
+            self.mostrar_ejecucion(output)
+        elif ejecucion['status'] == 'INPUT':
+            output = ejecucion['output']
+            self.variable = ejecucion['variable']
+            self.mostrar_ejecucion(output)
+            self.input.configure(state="normal")
+    
     def enviar_input(self, event=None):
-        valor = self.input.get()
-        print(valor)
-        self.input.delete(0, "end")  # Limpia el campo de entrada
-        # self.input.configure(state="disabled")
+        cadena = self.input.get()
+        var_type = self.variable["type"]
+        var_name = self.variable["name"]
+        self.input.delete(0, "end")
+        self.input.configure(state="disabled")
+        try:
+            value = float(cadena)
+            if var_type == "integer":
+                value = int(value)
+
+            self.vm.set_variable_value(var_name, value)
+            self.ejecutar_vm(self)
+        except ValueError:
+            self.errores_tab.configure(state="normal")
+            self.errores_tab.insert(
+                "end", f"El valor '{cadena}' no es un '{var_type}', ingresalo de nuevo\n"
+            )
+            self.errores_tab.configure(state="disabled")
+            self.input.configure(state="normal")
+
     
     def send_command(self, *args):
         self.enviar_input()
+    
+    def mostrar_ejecucion(self, output):
+        self.ejecucion_tab.configure(state="normal")
+        self.ejecucion_tab.delete("0.0", "end")
+        for line in output:
+            self.ejecucion_tab.insert("end", f"{line}\n")
+        self.ejecucion_tab.configure(state="disabled")
     
 if __name__ == "__main__":
     app = App()
