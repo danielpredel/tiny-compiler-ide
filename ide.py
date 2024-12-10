@@ -446,17 +446,6 @@ class App(ctk.CTk):
         self.vm = VirtualMachine(self.instrucciones, self.tabla_simbolos)
         self.ejecutar_vm(self)
         
-        # Posiblemente se puede hacer una funcion llamada por run_file y por el input
-        # ejecucion = self.vm.execute()
-        # if ejecucion['status'] == 'END':
-        #     output = ejecucion['output']
-        #     self.mostrar_ejecucion(output)
-        # elif ejecucion['status'] == 'INPUT':
-        #     output = ejecucion['output']
-        #     self.variable = ejecucion['variable']
-        #     self.mostrar_ejecucion(output)
-        #     self.input.configure(state="normal")
-        
     def analizar_lexico(self, *args):
         codigo = self.code_textbox.get("1.0","end-1c")
         self.analisis_lexico, self.errores, self.comentarios = lexico.ejecutar_lexico(codigo)
@@ -639,7 +628,6 @@ class App(ctk.CTk):
             self.errores_tab.configure(state="disabled")
             self.input.configure(state="normal")
 
-    
     def send_command(self, *args):
         self.enviar_input()
     
@@ -649,6 +637,7 @@ class App(ctk.CTk):
         for line in output:
             self.ejecucion_tab.insert("end", f"{line}\n")
         self.ejecucion_tab.configure(state="disabled")
+        self.ejecucion_tab.see("end")
     
 if __name__ == "__main__":
     app = App()
