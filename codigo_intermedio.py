@@ -15,8 +15,8 @@ class GeneradorCodigoIntermedio:
         return self.instrucciones
 
     def recorrer_arbol(self, nodo: Node):
-        if nodo.node_kind[1] == "MAIN":
-            self.generar_main(nodo)
+        if nodo.node_kind[1] in ["MAIN","THEN","ELSE"]:
+            self.generar_lista_sentencias(nodo)
         elif nodo.node_kind[1] == "SELECCION":
             self.generar_seleccion(nodo)
         elif nodo.node_kind[1] == "ITERACION":
@@ -36,7 +36,7 @@ class GeneradorCodigoIntermedio:
         elif nodo.node_kind[1] == "IDENTIFICADOR":
             self.generar_identificador(nodo)
 
-    def generar_main(self, nodo: Node):
+    def generar_lista_sentencias(self, nodo: Node):
         if nodo.child[0] != None:
             # Generar primer sentencia
             self.recorrer_arbol(nodo.child[0])
