@@ -1,0 +1,29 @@
+main{
+    integer v, num;
+    double val;
+    cin v;
+    cin num;
+
+    if(num == 1){
+        val = 100*v;
+    }
+    else{
+        if(num == 2){
+            val = 100 ^ v;
+        }
+        else{
+            if(num == 3){
+                val = 100 / v;
+            }
+            else{
+                val = 0;
+            }
+        }
+    }
+    cout val;
+}
+
+
+
+
+
