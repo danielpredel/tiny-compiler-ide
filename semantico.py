@@ -127,7 +127,7 @@ class AnalizadorSemantico:
                             error = f'Error en la linea {nodo.lineno}: la variable "{nodo.name}" no se ha inicializado'
                             self.errores.append(error)
                         else:
-                            self.tabla_simbolos[nodo.name]["value"] = 0;
+                            self.tabla_simbolos[nodo.name]["value"] = -1;
                 else:
                     error = f'Error en la linea {nodo.lineno}: la variable "{nodo.name}" no se ha declarado'
                     self.errores.append(error)
