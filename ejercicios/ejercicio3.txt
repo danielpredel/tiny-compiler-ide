@@ -1,0 +1,39 @@
+main{
+    integer horas, categoria;
+
+    cin horas;
+    cin categoria;
+
+    if(horas > 30){
+        horas = 30;
+    }
+    else{
+        if(horas < 0){
+            horas = 0;
+        }
+    }
+    
+    if(categoria >= 1 & categoria <= 4){
+        if(categoria == 1){
+            cout horas * 30;
+        }
+        else{
+            if(categoria == 2){
+                cout horas * 38;
+            }
+            else{
+                if(categoria == 3){
+                    cout horas * 50;
+                }
+                else{
+                    if(categoria == 4){
+                        cout horas * 70;
+                    }
+                }
+            }
+        }
+    }
+    else{
+        cout 0;
+    }
+}
