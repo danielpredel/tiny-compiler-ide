@@ -1,0 +1,67 @@
+main {
+    integer nVentas, clave, cantidad, contador, b1, b2, b3, b4, b5;
+    double p1, p2, p3, p4, p5, totalEstadio, totalVenta;
+
+    b1 = 0;
+    b2 = 0;
+    b3 = 0;
+    b4 = 0;
+    b5 = 0;
+    contador = 0;
+    totalEstadio = 0;
+
+    cin nVentas;
+    cin p1;
+    cin p2;
+    cin p3;
+    cin p4;
+    cin p5;
+
+    while(contador < nVentas){
+        cin clave;
+        cin cantidad;
+        if(clave == 1){
+            totalVenta = p1 * cantidad;
+            b1 = b1 + cantidad;
+        }
+        else{
+            if(clave == 2){
+                totalVenta = p2 * cantidad;
+                b2 = b2 + cantidad;
+            }
+            else{
+                if(clave == 3){
+                    totalVenta = p3 * cantidad;
+                    b3 = b3 + cantidad;
+                }
+                else{
+                    if(clave == 4){
+                        totalVenta = p4 * cantidad;
+                        b4 = b4 + cantidad;
+                    }
+                    else{
+                        if(clave == 5){
+                            totalVenta = p5 * cantidad;
+                            b5 = b5 + cantidad;
+                        }
+                    }
+                }
+            }
+        }
+
+        cout clave;
+        cout cantidad;
+        cout totalVenta;
+        contador++;
+        totalEstadio = totalEstadio + totalVenta;
+    }
+
+    cout b1;
+    cout b2;
+    cout b3;
+    cout b4;
+    cout b5;
+    cout totalEstadio;
+}
+
+
