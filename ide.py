@@ -134,14 +134,11 @@ class App(ctk.CTk):
         self.analisis_tabview.add("Semantico")
         self.analisis_tabview.add("T. Simbolos")
         self.analisis_tabview.add("C. Intermedio")
+        self.analisis_tabview.add("Ejecucion")
         
         # Textbox de salida para Analisis Lexico
         self.analisis_tabview.tab("Lexico").grid_columnconfigure(0, weight=1)
         self.analisis_tabview.tab("Lexico").grid_rowconfigure(1, weight=1)
-        
-        # Botón para abrir otra ventana
-        # self.boton_abrir = ctk.CTkButton(self.analisis_tabview.tab("Lexico"), text="Abrir en otra ventana")
-        # self.boton_abrir.grid(row=0, column=0, padx=0, pady=5, sticky="ew")
         
         self.lexico_tab = ctk.CTkTextbox(self.analisis_tabview.tab("Lexico"), wrap='none')
         self.lexico_tab.grid(row=1, column=0, padx=0, pady=0, sticky="nsew")
@@ -172,34 +169,34 @@ class App(ctk.CTk):
         # Textbox de salida para Tabla de Simbolos
         self.analisis_tabview.tab("T. Simbolos").grid_columnconfigure(0, weight=1)
         self.analisis_tabview.tab("T. Simbolos").grid_rowconfigure(1, weight=1)
-        
-        # Botón para abrir otra ventana
-        # self.boton_abrir_simbolos = ctk.CTkButton(self.analisis_tabview.tab("T. Simbolos"), text="Abrir en otra ventana")
-        # self.boton_abrir_simbolos.grid(row=0, column=0, padx=0, pady=5, sticky="ew")
-        
         self.tabla_simb_tab = ctk.CTkTextbox(self.analisis_tabview.tab("T. Simbolos"), wrap='none')
         self.tabla_simb_tab.grid(row=1, column=0, padx=0, pady=0, sticky="nsew")
         self.tabla_simb_tab.configure(state="disabled")
         
-        # Tabview Errores y ejecucion
+        # Textbox de salida para la Ejecucion
+        self.analisis_tabview.tab("Ejecucion").grid_columnconfigure(0, weight=1)
+        self.analisis_tabview.tab("Ejecucion").grid_rowconfigure(0, weight=1)
+        self.ejecucion_tab = ctk.CTkTextbox(self.analisis_tabview.tab("Ejecucion"), wrap='word')
+        self.ejecucion_tab.grid(row=0, column=0, padx=0, pady=0, sticky="nsew")
+        self.ejecucion_tab.insert("end", ">>> Inicio de la Ejecucion <<<\n")
+        self.ejecucion_tab.configure(state="disabled")
+        
+        # Widget para ingresar comandos
+        self.input = ctk.CTkEntry(self.analisis_tabview.tab("Ejecucion"), placeholder_text="Ingresa el numero aqui ...")
+        self.input.grid(row=1, column=0, padx=0, pady=5, sticky="nsew")
+        self.input.bind("<Return>", self.send_command)
+        
+        # Tabview Errores
         self.err_run_tabview = ctk.CTkTabview(self.output_frame, width=500)
         self.err_run_tabview.grid(row=1, column=0, padx=(10, 20), pady=(10, 0), sticky="nsew")
-        self.err_run_tabview.add("Errores")
-        self.err_run_tabview.add("Ejecucion")
+        self.err_run_tabview.add("Errores") 
         
-        # Textbox de salida para Tabla de Simbolos
+        # Textbox de salida para Ejecucion
         self.err_run_tabview.tab("Errores").grid_columnconfigure(0, weight=1)
         self.err_run_tabview.tab("Errores").grid_rowconfigure(0, weight=1)
         self.errores_tab = ctk.CTkTextbox(self.err_run_tabview.tab("Errores"), wrap='word')
         self.errores_tab.grid(row=0, column=0, padx=0, pady=0, sticky="nsew")
         self.errores_tab.configure(state="disabled")
-        
-        # Textbox de salida para Tabla de Simbolos
-        self.err_run_tabview.tab("Ejecucion").grid_columnconfigure(0, weight=1)
-        self.err_run_tabview.tab("Ejecucion").grid_rowconfigure(0, weight=1)
-        self.ejecucion_tab = ctk.CTkTextbox(self.err_run_tabview.tab("Ejecucion"), wrap='word')
-        self.ejecucion_tab.grid(row=0, column=0, padx=0, pady=0, sticky="nsew")
-        self.ejecucion_tab.configure(state="disabled")
         
         # Indicador linea y columna del cursor en archivo
         # Label line-col
@@ -441,7 +438,7 @@ class App(ctk.CTk):
     
     def run_file(self, *args):
         self.build_file(self)
-
+        
         # Ciclo de ejecucion de la VM
         # Caso simple: sin lectura de varibles
         #   vm.execute = output -> ide
@@ -599,6 +596,15 @@ class App(ctk.CTk):
         for instruccion in self.instrucciones:
             self.cod_int_tab.insert("end", f'{instruccion};\n')
         self.cod_int_tab.configure(state="disabled")
+    
+    def enviar_input(self, event=None):
+        valor = self.input.get()
+        print(valor)
+        self.input.delete(0, "end")  # Limpia el campo de entrada
+        # self.input.configure(state="disabled")
+    
+    def send_command(self, *args):
+        self.enviar_input()
     
 if __name__ == "__main__":
     app = App()
