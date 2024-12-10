@@ -1,0 +1,30 @@
+main {
+    integer contador, nVentas, ventasMenores, ventasMedias, ventasMayores;
+    double valorVenta;
+
+    cin nVentas;
+
+    contador = 0;
+    ventasMenores = 0;
+    ventasMedias = 0;
+    ventasMayores = 0;
+
+    while(contador < nVentas){
+        cin valorVenta;
+        if(valorVenta <= 200){
+            ventasMenores++;
+        }
+        else{
+            if(valorVenta <= 400){
+                ventasMedias++;
+            }
+            else{
+                ventasMayores++;
+            }
+        }
+        contador++;
+    }
+    cout ventasMenores;
+    cout ventasMedias;
+    cout ventasMayores;
+}
