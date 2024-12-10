@@ -1,29 +1,9 @@
 main{
-    integer v, num;
-    double val;
-    cin v;
-    cin num;
+    double peso, longitud;
 
-    if(num == 1){
-        val = 100*v;
-    }
-    else{
-        if(num == 2){
-            val = 100 ^ v;
-        }
-        else{
-            if(num == 3){
-                val = 100 / v;
-            }
-            else{
-                val = 0;
-            }
-        }
-    }
-    cout val;
+    cin peso;
+    cin longitud;
+
+    cout peso * 0.453592;
+    cout longitud * 0.3048;
 }
-
-
-
-
-
