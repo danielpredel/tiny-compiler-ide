@@ -161,6 +161,8 @@ class GeneradorCodigoIntermedio:
 
     def generar_operador(self, nodo: Node):
         operador = nodo.op
+        self.recorrer_arbol(nodo.child[0])
+        self.recorrer_arbol(nodo.child[1])
 
         # Generar operaciones logicas
         if operador == "AND":
