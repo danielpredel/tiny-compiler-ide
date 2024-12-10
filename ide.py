@@ -96,7 +96,7 @@ class App(ctk.CTk):
         # Botones compilar y ejecutar
         self.build_button = ctk.CTkButton(self.menu_frame, text=None, image=self.icon_images[5], width=40, command=self.build_file)
         self.build_button.grid(row=0, column=8, padx=5, pady=10)
-        self.run_button = ctk.CTkButton(self.menu_frame, text=None, image=self.icon_images[6], width=40)
+        self.run_button = ctk.CTkButton(self.menu_frame, text=None, image=self.icon_images[6], width=40, command=self.run_file)
         self.run_button.grid(row=0, column=9, padx=5, pady=10)
         
         # Editor de Codigo
@@ -438,6 +438,17 @@ class App(ctk.CTk):
         
         if n_errores == 0:
             self.generar_codigo_intermedio(self)
+    
+    def run_file(self, *args):
+        self.build_file(self)
+
+        # Ciclo de ejecucion de la VM
+        # Caso simple: sin lectura de varibles
+        #   vm.execute = output -> ide
+        # Caso complejo: con lectura de varibles
+        #   vm.output => ide
+        #   vm.input  <= ide
+        #   vm.output => ide
         
     def analizar_lexico(self, *args):
         codigo = self.code_textbox.get("1.0","end-1c")
