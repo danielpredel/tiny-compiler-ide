@@ -1,6 +1,6 @@
 build/
 dist/
-env/
+.venv/
 analisis_lexico/analisis.txt
 analisis_lexico/comentarios.txt
 analisis_lexico/errores.txt
