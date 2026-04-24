@@ -1,47 +1,72 @@
-# Entorno Virtual
+# Tiny Compiler + IDE
 
-1.- **Instala virtualenv:**
+## Overview
 
-*pip install virtualenv*
+Academic project (Dec 2024) consisting of a small compiler for the *Tiny* language implemented in Python, coupled with a basic IDE for writing and executing programs.
+The project focuses on core compilation stages: lexical, syntactic, and semantic analysis, along with simple error reporting.
 
-**o:**
+## Requirements
+- Python 3.11
+- Java 21 (OpenJDK, LTS)
 
-*pip3 install virtualenv*
+## Features
 
-**Si utilizas sistemas Linux como Debian o Ubuntu (Kernel 6>):**
+* Lexer and parser for a Tiny-like language
+* Basic semantic validation
+* Execution/testing through a simple IDE interface
+* Error handling during compilation stages
 
-*sudo apt install python3-virtualenv*
+## Architecture
 
-2.- **Crear entorno:**
+The system is implemented as a single Python application where the compiler and IDE are tightly coupled.
+Core components include:
 
-*virtualenv env*
+* Lexer (tokenization)
+* Parser (syntax analysis)
+* Semantic checks
+* Basic GUI layer for interaction and execution
 
-3.- **activar entorno virtual:**
+## Limitations
 
-**(Linux y MacOS):**
+* Strong coupling between IDE and compiler components
+* Mixed programming paradigms (OOP + functional) without strict boundaries
+* Reliance on Java-based elements for some UI components
+* Not designed for scalability or production use
 
-*source env/bin/activate*
+## Project Status
 
-**(Windows):**
+Archived – this project is no longer actively maintained.
+It was developed as a learning exercise during college.
 
-*.\env\Scripts\activate*
+## Reflection
 
-4.- **Instalar dependencias:**
+* The compiler logic should be decoupled from the IDE
+* A clearer architecture and module separation should be defined upfront
+* Cross-language dependencies (Java + Python) should be avoided
+* Improved structure and testing would increase maintainability
 
-*pip install -r requirements.txt*
+## Setup & Execution
 
-**o:**
+### 1. Create virtual environment
 
-*pip3 install -r requirements.txt*
+`python3 -m venv .venv`
 
-5.- **Ejecucion:**
+### 2. Activate virtual environment
 
-*python ide.py*
+**Linux & MacOS**
+`source .venv/bin/activate`
 
-**o:**
+**Windows (CMD)**
+`.\.venv\Scripts\activate`
 
-*python3 ide.py*
+### 3. Install dependencies
 
-6.- **Desactivar entorno:**
+`pip install -r requirements.txt`
 
-*deactivate*
+### 4. Run the application
+
+`python ide.py`
+
+### 5. Deactivate environment
+
+`deactivate`
