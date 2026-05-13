@@ -111,11 +111,11 @@ class App(ctk.CTk):
         self.editor_frame.grid_columnconfigure(1, weight=1)
         
         # Textbox para numero de linea
-        self.line_textbox = ctk.CTkTextbox(self.editor_frame, width=50, wrap='word', activate_scrollbars=False,state="disabled",font=("TkDefaultFont", 15))
+        self.line_textbox = ctk.CTkTextbox(self.editor_frame, width=50, wrap='word', activate_scrollbars=False,state="disabled",font=("Consolas", 15))
         self.line_textbox.grid(row=0, column=0, padx=(20,0), pady=(10,20), sticky="nsew")
         
         # Textbox para editor de codigo
-        self.code_textbox = ctk.CTkTextbox(self.editor_frame, wrap='none', activate_scrollbars=False,font=("TkDefaultFont", 15), text_color="black")
+        self.code_textbox = ctk.CTkTextbox(self.editor_frame, wrap='none', activate_scrollbars=False,font=("Consolas", 15), text_color="black")
         self.code_textbox.grid(row=0, column=1, padx=(10,10), pady=(10,20), sticky="nsew")
         self.code_textbox.configure(yscrollcommand=self.on_scroll)
         self.code_textbox.bind('<KeyRelease>', self.on_key_release)
@@ -336,14 +336,14 @@ class App(ctk.CTk):
     def aumentar_fuente(self, event):
         if self.editor_font_size < 16:
             self.editor_font_size += 1
-            self.code_textbox.configure(font=("TkDefaultFont", self.editor_font_size))
-            self.line_textbox.configure(font=("TkDefaultFont", self.editor_font_size))
+            self.code_textbox.configure(font=("Consolas", self.editor_font_size))
+            self.line_textbox.configure(font=("Consolas", self.editor_font_size))
 
     def disminuir_fuente(self, event):
         if self.editor_font_size > 10:
             self.editor_font_size -= 1
-            self.code_textbox.configure(font=("TkDefaultFont", self.editor_font_size))
-            self.line_textbox.configure(font=("TkDefaultFont", self.editor_font_size))
+            self.code_textbox.configure(font=("Consolas", self.editor_font_size))
+            self.line_textbox.configure(font=("Consolas", self.editor_font_size))
     
     # Acciones a eventos
     def enlazar_scroll(self, *args):
